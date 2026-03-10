@@ -35,6 +35,8 @@ export default function WorkflowDetail() {
         setLoading(false)
     }
 
+    const DAILY_LIMIT = 20
+
     async function handleDownload() {
         if (!workflow.download_path || !isSupabaseConfigured) {
             alert('下载链接未配置或未连接数据库')
@@ -42,6 +44,19 @@ export default function WorkflowDetail() {
         }
 
         setDownloading(true)
+
+        // 管理员不受限制，普通 VIP 检查每日限额
+        if (!isAdmin) {
+            const { data: countData } = await supabase
+                .rpc('get_today_download_count', { uid: user.id })
+
+            if (countData >= DAILY_LIMIT) {
+                setDownloading(false)
+                alert(`今日下载已达上限（${DAILY_LIMIT}次），请明天再来下载哦~`)
+                return
+            }
+        }
+
         // download_path 存的是文件夹名，上传到 Storage 时加了 .zip 后缀
         const storagePath = workflow.download_path.endsWith('.zip')
             ? workflow.download_path
@@ -56,6 +71,11 @@ export default function WorkflowDetail() {
         if (error) {
             alert('获取下载链接失败：' + error.message)
         } else if (data?.signedUrl) {
+            // 记录下载日志
+            await supabase.from('download_logs').insert({
+                user_id: user.id,
+                workflow_id: workflow.id,
+            })
             window.location.href = data.signedUrl
         }
     }
