@@ -199,7 +199,7 @@ export default function Admin() {
             </div>
 
             {/* 工作流管理 */}
-            <div className="detail-layout" style={{ marginTop: 0 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)', marginTop: 0 }}>
                 <div className="admin-section">
                     <h3><PlusSquare size={20} className="text-gradient" /> 添加新工作流</h3>
                     <form onSubmit={handleAddWorkflow}>
