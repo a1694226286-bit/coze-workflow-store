@@ -233,15 +233,20 @@ export default function WorkflowDetail() {
                                     <Link to="/activate" className="btn btn-gold" style={{ width: '100%' }}>激活 VIP 下载全库</Link>
                                 </div>
                             ) : (
-                                <button
-                                    onClick={handleDownload}
-                                    disabled={downloading}
-                                    className="btn btn-primary"
-                                    style={{ width: '100%', height: 48, fontSize: '1rem' }}
-                                >
-                                    <Download size={20} />
-                                    {downloading ? '获取链接中...' : '下载工作流 ZIP'}
-                                </button>
+                                <div>
+                                    <button
+                                        onClick={handleDownload}
+                                        disabled={downloading}
+                                        className="btn btn-primary"
+                                        style={{ width: '100%', height: 48, fontSize: '1rem' }}
+                                    >
+                                        <Download size={20} />
+                                        {downloading ? '获取链接中...' : '下载工作流 ZIP'}
+                                    </button>
+                                    <p style={{ textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.75rem', marginTop: 8 }}>
+                                        每位会员每天最多可下载 {DAILY_LIMIT} 个工作流
+                                    </p>
+                                </div>
                             )}
                         </div>
                     </div>

@@ -6,7 +6,7 @@
 CREATE TABLE IF NOT EXISTS download_logs (
     id BIGSERIAL PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    workflow_id BIGINT NOT NULL REFERENCES workflows(id) ON DELETE CASCADE,
+    workflow_id UUID NOT NULL REFERENCES workflows(id) ON DELETE CASCADE,
     downloaded_at TIMESTAMPTZ DEFAULT NOW()
 );
 
